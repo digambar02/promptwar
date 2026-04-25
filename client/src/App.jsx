@@ -149,18 +149,33 @@ function App() {
 
   if (!user) {
     return (
-      <div className="container login-container">
-         <div className="login-card">
-           <div className="icon-wrapper">
-             <BookOpen size={48} color="var(--primary-color)" />
-           </div>
-           <h1 className="title">AI Learning Roadmap</h1>
-           <p className="subtitle">Sign in to start your personalized learning journey and track your progress over time.</p>
-           <button onClick={handleLogin} className="btn-submit login-btn">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" className="google-icon" />
-              Sign in with Google
-           </button>
-         </div>
+      <div className="landing-page">
+        <div className="landing-content">
+          <div className="landing-badge">✨ Transform your journey</div>
+          <h1 className="landing-title">Learning Companion<br/><span className="highlight">AI Powered Assistant</span></h1>
+          <p className="landing-subtitle">Generate hyper-personalized learning roadmaps tailored to your age, education, and career goals. Track your progress dynamically over time.</p>
+          
+          <div className="landing-features">
+            <div className="feature"><span className="feature-icon">🎯</span> Custom Roadmaps</div>
+            <div className="feature"><span className="feature-icon">📈</span> Progress Tracking</div>
+            <div className="feature"><span className="feature-icon">🧠</span> AI Intelligence</div>
+          </div>
+
+          <button onClick={handleLogin} className="btn-google-signin">
+             <div className="google-icon-wrapper">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" className="google-logo" />
+             </div>
+             <span className="btn-text">Sign in with Google</span>
+          </button>
+        </div>
+        <div className="landing-visual">
+          <div className="glass-panel">
+            <div className="skeleton-line w-3-4"></div>
+            <div className="skeleton-line w-full"></div>
+            <div className="skeleton-line w-5-6"></div>
+            <div className="pulse-circle"></div>
+          </div>
+        </div>
       </div>
     );
   }
