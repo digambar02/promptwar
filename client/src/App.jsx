@@ -11,13 +11,13 @@ function App() {
   // App State
   const [view, setView] = useState('new'); // 'new' or 'history'
   
-  // Form Data
   const [formData, setFormData] = useState({ 
     age: '', 
     education: '', 
     currentWork: '',
     domain: '',
-    interest: '' 
+    interest: '',
+    weeks: ''
   });
   const [roadmap, setRoadmap] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -110,7 +110,10 @@ function App() {
         body: JSON.stringify({
           age: formData.age,
           education: formData.education,
-          interest: formData.interest
+          currentWork: formData.currentWork,
+          domain: formData.domain,
+          interest: formData.interest,
+          weeks: formData.weeks
         }),
       });
       
@@ -250,6 +253,11 @@ function App() {
               <input type="text" id="interest" name="interest" className="form-input" placeholder="e.g., Quantum Computing, React Native, Digital Marketing" value={formData.interest} onChange={handleChange} required />
             </div>
 
+            <div className="form-group full-width">
+              <label className="form-label" htmlFor="weeks">Time Available (Weeks)</label>
+              <input type="number" id="weeks" name="weeks" className="form-input" placeholder="e.g., 5" value={formData.weeks} onChange={handleChange} required min="1" max="52" />
+            </div>
+
             <div className="full-width">
               <button type="submit" className="btn-submit" disabled={loading}>
                 {loading ? 'Generating...' : 'Generate AI Roadmap'}
@@ -307,6 +315,7 @@ function App() {
                     <div className="history-meta" style={{display: 'flex', gap: '15px', color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '15px'}}>
                       <span style={{display: 'flex', alignItems: 'center', gap: '5px'}}><Briefcase size={14}/> {item.formData.currentWork}</span>
                       <span style={{display: 'flex', alignItems: 'center', gap: '5px'}}><GraduationCap size={14}/> {item.formData.education}</span>
+                      {item.formData.weeks && <span style={{display: 'flex', alignItems: 'center', gap: '5px'}}>⏳ {item.formData.weeks} weeks</span>}
                     </div>
                     <div className="history-roadmap-preview" style={{borderTop: '1px solid var(--border-color)', paddingTop: '15px'}}>
                        {item.roadmap.slice(0, 2).map((m, i) => (

@@ -1,55 +1,54 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const { GoogleGenAI } = require('@google/genai');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/api/roadmap', (req, res) => {
-  const { age, education, interest } = req.body;
+// Initialize Gemini
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+app.post('/api/roadmap', async (req, res) => {
+  const { age, education, currentWork, domain, interest, weeks } = req.body;
   
-  if (!age || !education || !interest) {
-    return res.status(400).json({ error: 'Please provide age, education, and interest.' });
+  if (!age || !education || !interest || !weeks) {
+    return res.status(400).json({ error: 'Please provide all required fields including time available in weeks.' });
   }
 
-  // Mocked intelligence for generating roadmaps
-  const roadmap = generateRoadmap(age, education, interest);
-  
-  setTimeout(() => {
+  try {
+    const prompt = `Design a ${weeks}-week highly personalized learning roadmap for a ${age}-year-old ${currentWork} with a ${education} background in the ${domain} industry who wants to learn ${interest}. Generate exactly one milestone per week (total ${weeks} milestones). Ensure the progression is logical and tailored to their specific background.`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "ARRAY",
+          items: {
+            type: "OBJECT",
+            properties: {
+              title: { type: "STRING", description: "Title of the week's focus" },
+              description: { type: "STRING", description: "Detailed description of what to learn and do" },
+              duration: { type: "STRING", description: "The specific week, e.g., 'Week 1'" },
+              icon: { type: "STRING", description: "A simple icon name like 'book', 'rocket', 'code', 'users', 'brain', 'star'" }
+            },
+            required: ["title", "description", "duration", "icon"]
+          }
+        }
+      }
+    });
+
+    const roadmap = JSON.parse(response.text);
     res.json({ roadmap });
-  }, 1500); // Simulate API call delay for dynamic feel
+  } catch (error) {
+    console.error("Gemini AI Error:", error);
+    res.status(500).json({ error: 'Failed to generate roadmap using AI.' });
+  }
 });
-
-function generateRoadmap(age, education, interest) {
-  return [
-    {
-      title: `Introduction to ${interest}`,
-      description: `Begin your journey into ${interest}. Start with the foundational concepts tailored for someone with a ${education} background.`,
-      duration: "Week 1-2",
-      icon: "rocket"
-    },
-    {
-      title: `Core Principles of ${interest}`,
-      description: `Dive deeper into the mechanics and theory. At ${age} years old, practical hands-on exercises will solidify your understanding faster.`,
-      duration: "Week 3-6",
-      icon: "book"
-    },
-    {
-      title: "Practical Application & Projects",
-      description: `Apply what you've learned to build a small real-world project related to ${interest}. This is crucial for portfolio building.`,
-      duration: "Week 7-10",
-      icon: "code"
-    },
-    {
-      title: "Advanced Topics & Networking",
-      description: `Choose a niche within ${interest} to specialize in. Connect with peers at your ${education} level to collaborate.`,
-      duration: "Week 11-14",
-      icon: "users"
-    }
-  ];
-}
-
-const path = require('path');
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
