@@ -4,3 +4,4 @@ client/node_modules
 .env
 client/dist
 .DS_Store
+server/serviceAccountKey.json

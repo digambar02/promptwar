@@ -6,7 +6,7 @@
   --primary-color: #3b82f6;
   --secondary-color: #8b5cf6;
   --text-color: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-muted: #cbd5e1;
   --border-color: #334155;
 }
 
@@ -611,4 +611,101 @@ body {
   .landing-visual {
     width: 100%;
   }
+}
+
+/* Accessibility & Info UI */
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.info-text strong {
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-help {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* Keyboard Navigation Outline */
+*:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+/* Button Variants */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.history-card:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.btn-delete-card {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-card:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
